@@ -1,10 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
-
+const jwt = require("jsonwebtoken");
 const app = express();
 
-app.listen(8000, () => {
+const port = 8000;
+const jwtSecret = "Secret stored in server";
+
+app.listen(port, () => {
   console.log("Server started!");
 });
 
@@ -12,9 +15,28 @@ app.listen(8000, () => {
 app.use(express.static("client/dist/spaziodatiExercise"));
 
 app.use(bodyParser.json());
-app.use((req, res, next) => setTimeout(next, getRandomDelay()));
 
-app.route("/api/login").post((req, res) => {
+app.route("/api/login").post((req, res, next) => {
+  setTimeout(() => {
+    handleLogin(req, res, next);
+  }, getRandomDelay());
+});
+
+app.route("/api/data/*").get((req, res, next) => {
+  const jwt = req.header["jwt"];
+  const isAuthentificated = verify(jwt);
+  if (!isAuthentificated) {
+    res.sendStatus(401);
+    return;
+  }
+  next();
+});
+
+app.route("/api/data/secret").get((req, res) => {
+  return res.status(200).send({ serverData: "this is only for logged users" });
+});
+
+function handleLogin(req, res) {
   const credential = {
     login: req.body.login,
     password: req.body.password
@@ -33,7 +55,7 @@ app.route("/api/login").post((req, res) => {
       token: newToken
     });
   }
-});
+}
 
 function getJWT(credential) {
   const user = findUser(credential);
@@ -44,14 +66,20 @@ function getJWT(credential) {
 }
 
 function issiueJWT(user) {
-  return "mock-token";
+  return jwt.sign(user.id, jwtSecret);
+  // return "mock-token";
+}
+
+// used to verify if user is logged
+function verify(token) {
+  return jwt.verify(token, jwtSecret);
 }
 
 function findUser(credential) {
-  // should store salted hashes here
+  // should store salted hashes
   const mockedDBUserList = [
-    { login: "a@a", password: "a" },
-    { login: "example@example.com", password: "password" }
+    { id: 1, login: "a@a", password: "a" },
+    { id: 2, login: "example@example.com", password: "password" }
   ];
   return _.find(mockedDBUserList, credential);
 }
