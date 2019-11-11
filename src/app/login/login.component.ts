@@ -28,14 +28,21 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.loginForm.valid) {
-      const user = this.readLoginForm();
-      this.auth.login(user)
-      console.log(user);
-    } else {
+    if (!this.loginForm.valid) {
       // shoud not get there, button will be disabled
       alert('Invalid mail or password')
+      return;
     }
+    const user = this.readLoginForm();
+    this.auth.login(user).subscribe(
+      res => {
+        console.log('OK');
+      },
+      err => {
+        alert('Login failed!');
+      }
+    )
+
   }
 
   back() {

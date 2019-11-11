@@ -1,4 +1,4 @@
-<button (click)="goToLogin()">Login</button>
-<button (click)="goToLogout()">Logout</button>
-<button (click)="goToSecret()">Secret</button>
+<button (click)="goToLogin()" *ngIf="isNotLogged() | async">Login</button>
+<button (click)="goToLogout()" *ngIf="isLogged() | async">Logout</button>
+<button (click)="goToSecret()" *ngIf="isLogged() | async">Secret</button>
 <p>home works!</p>
