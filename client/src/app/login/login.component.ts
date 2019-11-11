@@ -5,6 +5,8 @@ import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  waitingForServer = new BehaviorSubject(false);
+
   loginForm = this.fb.group({
     login: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, Validators.required),
@@ -23,6 +27,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.waitingForServer.subscribe(waiting => {
+      if (waiting) {
+        this.loginForm.disable();
+      } else {
+        this.loginForm.enable();
+      }
+    })
   }
   private readLoginForm(): User {
     return new User(this.loginForm.value);
@@ -35,16 +46,19 @@ export class LoginComponent implements OnInit {
       return;
     }
     const user = this.readLoginForm();
-    this.auth.login(user).subscribe(
-      res => {
-        this.back();
-      },
-      (err: HttpErrorResponse) => {
-        const errMsg = err.error.errorMessage || 'Login failed!';
-        alert(errMsg);
-        console.log(err);
-      }
-    )
+    this.waitingForServer.next(true);
+    this.auth.login(user)
+      .pipe(finalize(() => this.waitingForServer.next(false)))
+      .subscribe(
+        res => {
+          this.back();
+        },
+        (err: HttpErrorResponse) => {
+          const errMsg = err.error.errorMessage || 'Login failed!';
+          alert(errMsg);
+          console.log(err);
+        }
+      )
 
   }
 

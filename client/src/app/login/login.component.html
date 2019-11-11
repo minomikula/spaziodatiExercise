@@ -20,5 +20,13 @@
   </div>
 </form>
 
-<button (click)="login()" [disabled]="!loginForm.valid">Login</button>
+<div *ngIf="waitingForServer | async">
+  Loading...
+</div>
+<button
+  (click)="login()"
+  [disabled]="!loginForm.valid || (waitingForServer | async)"
+>
+  Login
+</button>
 <button (click)="back()">Back</button>
