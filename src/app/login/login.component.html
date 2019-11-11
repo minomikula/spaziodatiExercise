@@ -1,1 +1,23 @@
 <p>login works!</p>
+
+<form [formGroup]="loginForm">
+  <div>
+    <label>Mail</label>
+    <input formControlName="login" />
+    <div *ngIf="showLoginEmailError()">
+      Email is not valid!
+    </div>
+    <div *ngIf="showLoginRequiredError()">
+      Login is required!
+    </div>
+  </div>
+  <div>
+    <label>Password</label>
+    <input formControlName="password" type="password" />
+    <div *ngIf="showPasswordRequiredError()">
+      Password is required!
+    </div>
+  </div>
+</form>
+
+<button (click)="login()" [disabled]="!loginForm.valid">Login</button>
