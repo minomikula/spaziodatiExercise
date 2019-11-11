@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
 import { TitleService } from './title.service';
 
@@ -38,6 +38,12 @@ export class AppComponent {
   isNotLogged() {
     return this.auth.isLogged().pipe(
       map(isLogged => !isLogged)
+    );
+  }
+  userName() {
+    return this.auth.getLoggedUser().pipe(
+      filter(user => Boolean(user)),
+      map(user => user.login)
     );
   }
 }

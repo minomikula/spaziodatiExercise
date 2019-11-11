@@ -5,7 +5,7 @@
       Login
     </button>
     <button mat-button (click)="goToLogout()" *ngIf="isLogged() | async">
-      Logout
+      Logout {{ userName() | async }}
     </button>
     <button mat-button (click)="goToSecret()" *ngIf="isLogged() | async">
       Secret
