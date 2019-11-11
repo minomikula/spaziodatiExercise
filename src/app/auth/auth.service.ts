@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './user';
 import { map, tap } from 'rxjs/operators';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 
 /** 
  * We are using JWT tokens pattern, so token is generated on
@@ -42,11 +42,11 @@ export class AuthService {
     this.currUser$.next(null);
   }
 
-  getLoggedUser() {
-    return this.currUser$;
+  getLoggedUser(): Observable<User> {
+    return this.currUser$.asObservable();
   }
-  isLogged() {
-    return this.currUser$.pipe(map(Boolean))
+  isLogged(): Observable<boolean> {
+    return this.currUser$.pipe(map(Boolean));
   }
 
   private readUserFromLocalStorage(): User {
