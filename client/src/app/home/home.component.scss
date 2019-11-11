@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+}
+.title {
+  flex: 1 1;
+}
+.menu-buttons {
+  flex: 0 0;
+  align-self: right;
+}

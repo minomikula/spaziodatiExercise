@@ -1,10 +1,16 @@
-<button mat-button (click)="goToLogin()" *ngIf="isNotLogged() | async">
-  Login
-</button>
-<button mat-button (click)="goToLogout()" *ngIf="isLogged() | async">
-  Logout
-</button>
-<button mat-button (click)="goToSecret()" *ngIf="isLogged() | async">
-  Secret
-</button>
-<p>home works!</p>
+<mat-toolbar>
+  <span class="title">Home</span>
+  <span class="menu-buttons">
+    <button mat-button (click)="goToLogin()" *ngIf="isNotLogged() | async">
+      Login
+    </button>
+    <button mat-button (click)="goToLogout()" *ngIf="isLogged() | async">
+      Logout
+    </button>
+    <button mat-button (click)="goToSecret()" *ngIf="isLogged() | async">
+      Secret
+    </button>
+  </span>
+</mat-toolbar>
+
+<p>Welcome!</p>

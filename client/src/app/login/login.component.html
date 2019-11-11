@@ -1,6 +1,6 @@
-<p>login works!</p>
+<p>Login</p>
 
-<form [formGroup]="loginForm">
+<form [formGroup]="loginForm" class="loginForm">
   <mat-form-field>
     <input matInput formControlName="login" placeholder="Mail" />
     <mat-error *ngIf="showLoginEmailError()">
