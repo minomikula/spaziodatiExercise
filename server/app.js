@@ -8,20 +8,27 @@ app.listen(8000, () => {
   console.log("Server started!");
 });
 
+// setup interceptors
 app.use(bodyParser.json());
+app.use((req, res, next) => setTimeout(next, getRandomDelay()));
 
-app.route("/api/login").post((req, res, next) => {
-  const newToken = getJWT(req.body.login, req.body.password);
+app.route("/api/login").post((req, res) => {
+  const credential = {
+    login: req.body.login,
+    password: req.body.password
+  };
+  const newToken = getJWT(credential);
   if (!newToken) {
+    console.log(`user ${credential.login} failed to log in`);
     res.sendStatus(401);
   } else {
-    res.sendStatus(200).send(newToken);
+    console.log(`user ${credential.login} logged in`);
+    res.status(200).send(newToken);
   }
-  return setTimeout(next, getRandomDelay());
 });
 
-function getJWT(login, password) {
-  const user = findUser(login);
+function getJWT(credential) {
+  const user = findUser(credential);
   if (!user) {
     return null;
   }
@@ -32,12 +39,13 @@ function issiueJWT(user) {
   return "mock-token";
 }
 
-function findUser(login) {
+function findUser(credential) {
+  // should store salted hashes here
   const mockedDBUserList = [
     { login: "a@a", password: "a" },
     { login: "example@example.com", password: "password" }
   ];
-  return mockedDBUserList.find(user => user.login === login);
+  return _.find(mockedDBUserList, credential);
 }
 
 function getRandomDelay() {
