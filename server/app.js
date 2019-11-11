@@ -36,6 +36,12 @@ app.route("/api/data/secret").get((req, res) => {
   return res.status(200).send({ serverData: "this is only for logged users" });
 });
 
+// TODO dont redirect angular pages
+
+app.get("*", function(req, res) {
+  res.redirect("/");
+});
+
 function handleLogin(req, res) {
   const credential = {
     login: req.body.login,
