@@ -6,6 +6,7 @@ const app = express();
 
 const port = 8000;
 const jwtSecret = "Secret stored in server";
+const jwtHeader = "X-jwt";
 
 app.listen(port, () => {
   console.log("Server started!");
@@ -23,7 +24,7 @@ app.route("/api/login").post((req, res, next) => {
 });
 
 app.route("/api/data/*").get((req, res, next) => {
-  const jwt = req.header["jwt"];
+  const jwt = req.header(jwtHeader);
   const isAuthentificated = verify(jwt);
   if (!isAuthentificated) {
     res.sendStatus(401);

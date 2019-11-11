@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
 import { map, tap } from 'rxjs/operators';
 import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
@@ -54,9 +54,14 @@ export class AuthService {
   getLoggedUser(): Observable<User> {
     return this.currUser$.asObservable();
   }
+
+  getToken() {
+    return this.currUser$.pipe(map(user => user ? user.token : null))
+  }
   isLogged(): Observable<boolean> {
     return this.currUser$.pipe(map(Boolean));
   }
+
 
   private readUserFromLocalStorage(): User {
     const userString = localStorage.getItem(this.localStorageUserKey);
