@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +25,11 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private location: Location,
+    private titleService: TitleService
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle('Login');
     this.waitingForServer.subscribe(waiting => {
       if (waiting) {
         this.loginForm.disable();

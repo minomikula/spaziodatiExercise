@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <span class="title">Home</span>
+  <span class="title">{{ titleService.getTitle() }}</span>
   <span class="menu-buttons">
     <button mat-button (click)="goToLogin()" *ngIf="isNotLogged() | async">
       Login
