@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<mat-toolbar>
+  <span class="title">Home</span>
+  <span class="menu-buttons">
+    <button mat-button (click)="goToLogin()" *ngIf="isNotLogged() | async">
+      Login
+    </button>
+    <button mat-button (click)="goToLogout()" *ngIf="isLogged() | async">
+      Logout
+    </button>
+    <button mat-button (click)="goToSecret()" *ngIf="isLogged() | async">
+      Secret
+    </button>
+  </span>
+</mat-toolbar>
+<div class="body">
+  <router-outlet></router-outlet>
+</div>
