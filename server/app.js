@@ -9,6 +9,8 @@ app.listen(8000, () => {
 });
 
 // setup interceptors
+app.use(express.static("client/dist/spaziodatiExercise"));
+
 app.use(bodyParser.json());
 app.use((req, res, next) => setTimeout(next, getRandomDelay()));
 
