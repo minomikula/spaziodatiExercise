@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,17 +9,20 @@ import {Router} from '@angular/router';
 export class HomeComponent implements OnInit {
 
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   goToLogin() {
-     this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/login');
   }
 
 
-  goToLogout(){
+  goToLogout() {
     this.router.navigateByUrl('/logout');
+  }
+  goToSecret() {
+    this.router.navigateByUrl('/secret');
   }
 }

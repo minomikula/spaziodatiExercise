@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { User } from '../auth/user';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +15,11 @@ export class LoginComponent implements OnInit {
     login: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, Validators.required),
   })
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private location: Location,
+  ) { }
 
   ngOnInit() {
   }
@@ -23,11 +30,16 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.loginForm.valid) {
       const user = this.readLoginForm();
+      this.auth.login(user)
       console.log(user);
     } else {
       // shoud not get there, button will be disabled
       alert('Invalid mail or password')
     }
+  }
+
+  back() {
+    this.location.back();
   }
 
   private checkError(field: Fields<User>, validator: string): boolean {

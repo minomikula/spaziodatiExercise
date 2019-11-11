@@ -4,12 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
+import { SecretComponent } from './secret/secret.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'secret', component: SecretComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent },
 ];
 
 @NgModule({

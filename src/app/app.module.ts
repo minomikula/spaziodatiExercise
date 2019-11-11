@@ -8,13 +8,15 @@ import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SecretComponent } from './secret/secret.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LogoutComponent,
-    HomeComponent
+    HomeComponent,
+    SecretComponent
   ],
   imports: [
     BrowserModule,
