@@ -1,32 +1,36 @@
 <p>login works!</p>
 
 <form [formGroup]="loginForm">
-  <div>
-    <label>Mail</label>
-    <input formControlName="login" />
-    <div *ngIf="showLoginEmailError()">
+  <mat-form-field>
+    <input matInput formControlName="login" placeholder="Mail" />
+    <mat-error *ngIf="showLoginEmailError()">
       Email is not valid!
-    </div>
-    <div *ngIf="showLoginRequiredError()">
+    </mat-error>
+    <mat-error *ngIf="showLoginRequiredError()">
       Login is required!
-    </div>
-  </div>
-  <div>
-    <label>Password</label>
-    <input formControlName="password" type="password" />
-    <div *ngIf="showPasswordRequiredError()">
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      formControlName="password"
+      type="password"
+      placeholder="Password"
+    />
+    <mat-error *ngIf="showPasswordRequiredError()">
       Password is required!
-    </div>
-  </div>
+    </mat-error>
+  </mat-form-field>
 </form>
 
 <div *ngIf="waitingForServer | async">
   Loading...
 </div>
 <button
+  mat-button
   (click)="login()"
   [disabled]="!loginForm.valid || (waitingForServer | async)"
 >
   Login
 </button>
-<button (click)="back()">Back</button>
+<button mat-button (click)="back()">Back</button>
