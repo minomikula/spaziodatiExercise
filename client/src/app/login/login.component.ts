@@ -36,10 +36,11 @@ export class LoginComponent implements OnInit {
     const user = this.readLoginForm();
     this.auth.login(user).subscribe(
       res => {
-        console.log('OK');
+        this.back();
       },
       err => {
         alert('Login failed!');
+        console.log(err);
       }
     )
 

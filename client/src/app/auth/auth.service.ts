@@ -18,12 +18,16 @@ export class AuthService {
   private apiUrl = 'api';
   private localStorageUserKey = 'user';
 
+  // TODO: check if Local Storage wes not changed in another tab
   private currUser$ = new BehaviorSubject<User>(this.readUserFromLocalStorage());
 
   constructor(private http: HttpClient) { }
 
   login(formUser: User) {
-    return this.http.post<string>(this.apiUrl + '/login', formUser)
+    return this.http.post(this.apiUrl + '/login', formUser, {
+      responseType: 'text',
+      observe: 'body'
+    })
       .pipe(
         map(token => {
           const loggedUser = new User(formUser);
