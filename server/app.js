@@ -1,11 +1,13 @@
 const { verify, getJWT } = require("./auth");
 
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
 const app = express();
 
 const port = 8000;
+const clientDir = "client/dist/spaziodatiExercise";
 
 const jwtHeader = "X-jwt";
 
@@ -14,7 +16,7 @@ app.listen(port, () => {
 });
 
 // setup interceptors
-app.use(express.static("client/dist/spaziodatiExercise"));
+app.use(express.static(clientDir));
 
 app.use(bodyParser.json());
 
@@ -41,7 +43,7 @@ app.route("/api/data/secret").get((req, res) => {
 // TODO dont redirect angular pages
 
 app.get("*", function(req, res) {
-  res.redirect("/");
+  res.sendFile(path.resolve(clientDir + "/index.html"));
 });
 
 function handleLogin(req, res) {
