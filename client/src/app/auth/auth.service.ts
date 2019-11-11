@@ -18,10 +18,17 @@ export class AuthService {
   private apiUrl = 'api';
   private localStorageUserKey = 'user';
 
-  // TODO: check if Local Storage wes not changed in another tab
+  // TODO: distinctUntilChanged
   private currUser$ = new BehaviorSubject<User>(this.readUserFromLocalStorage());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+    // TODO run out of the zone...
+    setInterval(() => {
+      this.currUser$.next(this.readUserFromLocalStorage());
+    }, 1000);
+  }
+
 
   login(formUser: User) {
     return this.http.post<AuthResponse>(this.apiUrl + '/login', formUser)
