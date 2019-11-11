@@ -20,10 +20,16 @@ app.route("/api/login").post((req, res) => {
   const newToken = getJWT(credential);
   if (!newToken) {
     console.log(`user ${credential.login} failed to log in`);
-    res.sendStatus(401);
+    res.status(401).send({
+      status: false,
+      errorMessage: "Incorect login or password"
+    });
   } else {
     console.log(`user ${credential.login} logged in`);
-    res.status(200).send(newToken);
+    res.status(200).send({
+      status: true,
+      token: newToken
+    });
   }
 });
 

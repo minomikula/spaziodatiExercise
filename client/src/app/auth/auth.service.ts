@@ -24,14 +24,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(formUser: User) {
-    return this.http.post(this.apiUrl + '/login', formUser, {
-      responseType: 'text',
-      observe: 'body'
-    })
+    return this.http.post<AuthResponse>(this.apiUrl + '/login', formUser)
       .pipe(
-        map(token => {
+        map(authResponse => {
           const loggedUser = new User(formUser);
-          loggedUser.token = token;
+          loggedUser.token = authResponse.token;
           return loggedUser;
         }),
         tap(loggedUser => {
@@ -61,4 +58,9 @@ export class AuthService {
     }
     return JSON.parse(userString);
   }
+}
+interface AuthResponse {
+  status: boolean;
+  errorMessage?: string;
+  token?: string
 }

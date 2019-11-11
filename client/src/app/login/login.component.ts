@@ -4,6 +4,7 @@ import { User } from '../auth/user';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -38,8 +39,9 @@ export class LoginComponent implements OnInit {
       res => {
         this.back();
       },
-      err => {
-        alert('Login failed!');
+      (err: HttpErrorResponse) => {
+        const errMsg = err.error.errorMessage || 'Login failed!';
+        alert(errMsg);
         console.log(err);
       }
     )
